@@ -1,0 +1,5 @@
+<h1>{{ destination.name }}</h1>
+<p>{{ destination.description }}</p>
+<p>Price: ${{ destination.price }}</p>
+<p>Availability: {{ destination.availability }}</p>
+<a href="{% url 'booking_create' destination.id %}">Book Now</a>

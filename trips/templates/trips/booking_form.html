@@ -1,0 +1,8 @@
+<h1>Book {{ destination.name }}</h1>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="user_name" placeholder="Your Name">
+    <input type="number" name="travelers" placeholder="Number of Travelers">
+    {% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
+    <button type="submit">Book</button>
+</form>

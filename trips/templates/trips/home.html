@@ -1,0 +1,30 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner</title>
+</head>
+<body>
+    <h1>Welcome to the Travel Planner</h1>
+
+    <!-- Show different options based on authentication state -->
+    <nav>
+        {% if user.is_authenticated %}
+            <p>Hello, {{ user.username }}!</p>
+            <ul>
+                <li><a href="{% url 'destination_list' %}">View Destinations</a></li>
+                <li><a href="{% url 'destination_create' %}">Add New Destination</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        {% else %}
+            <p>You are not logged in.</p>
+            <ul>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            </ul>
+        {% endif %}
+    </nav>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<h1>Destinations</h1>
+<ul>
+    {% for destination in destinations %}
+        <li>
+            <a href="{% url 'destination_update' destination.pk %}">{{ destination.name }}</a> - ${{ destination.price }}
+            <a href="{% url 'destination_delete' destination.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'destination_create' %}">Add New Destination</a>
