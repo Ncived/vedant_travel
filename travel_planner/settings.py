@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-&s&ws-qt&0wb%h7ai@7$gti4@+c#wcouscb5%1k4s09dgg7ls-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['50d0089c53ba4fff8557caf815d53672.vfs.cloud9.eu-west-1.amazonaws.com']
+ALLOWED_HOSTS = ['*','your-environment-name.eba-hhw8crzm.us-east-1.elasticbeanstalk.com']
 
 LOGIN_REDIRECT_URL = '/'  # Redirect to home page after login
 LOGOUT_REDIRECT_URL = '/login/'  # Redirect to login page after logout
