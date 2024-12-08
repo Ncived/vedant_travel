@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                git credentialsId: 'githubvedant', url: 'https://github.com/Ncived/vedant_travel.git'
+                git credentialsId: 'test', url: 'https://github.com/Ncived/vedant_travel.git'
             }
         }
        stage('Deploy to EC2') {
