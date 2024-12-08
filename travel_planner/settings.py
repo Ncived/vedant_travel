@@ -17,14 +17,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-&s&ws-qt&0wb%h7ai@7$gti4@+c#wcouscb5%1k4s09dgg7ls-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','your-environment-name.eba-hhw8crzm.us-east-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['*','your-environment-name.eba-hhw8crzm.us-east-1.elasticbeanstalk.com','*']
 
 LOGIN_REDIRECT_URL = '/'  # Redirect to home page after login
 LOGOUT_REDIRECT_URL = '/login/'  # Redirect to login page after logout
@@ -73,7 +72,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'travel_planner.wsgi.application'
-
 
 
 
