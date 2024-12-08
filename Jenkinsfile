@@ -12,7 +12,7 @@ pipeline {
         script {
             sh '''
                 # Build the Docker image
-                docker build --no-cache -t travel-app.
+                docker build --no-cache -t travel-app .
                 
                 # Stop any existing container and run the new image
                 docker stop travel-app || true
