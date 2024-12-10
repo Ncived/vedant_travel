@@ -4,7 +4,7 @@ pipeline {
         // SonarCloud environment variables
         SONAR_HOST_URL = 'https://sonarcloud.io'
         SONAR_PROJECT_KEY = 'vedant_travel'
-        SONAR_ORGANIZATION = 'Ncived'
+        SONAR_ORGANIZATION = 'ncived'
         SONAR_TOKEN = credentials('sonarcloud-token') // Add the token in Jenkins credentials
         scannerHome = tool 'sonarcloud-scanner'
     }
