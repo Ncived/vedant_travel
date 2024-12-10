@@ -1,10 +1,9 @@
-# trips/views.py
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404
 from .models import Destination
 
-# Example view for the homepage (root path)
+# Home page view (root path)
 def home(request):
-    return render(request, 'home.html')  # Render the home.html template
+    return render(request, 'index.html')  # Ensure index.html is in your templates folder
 
 # View for the destination list
 def destination_list(request):

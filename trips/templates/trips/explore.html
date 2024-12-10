@@ -1,0 +1,31 @@
+<!-- templates/trips/explore.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Destinations</title>
+    <!-- Link to the static CSS file -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1>Explore Travel Destinations</h1>
+
+    <div class="destination-list">
+        {% for destination in destinations %}
+            <div class="destination">
+                <h2>{{ destination.name }}</h2>
+                <img src="{{ destination.image_url }}" alt="{{ destination.name }}" class="destination-image">
+                <h3>Itinerary:</h3>
+                <ul>
+                    {% for day in destination.itinerary %}
+                        <li>{{ day }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
