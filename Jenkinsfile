@@ -1,5 +1,14 @@
 pipeline {
     agent any
+    environment {
+        // SonarCloud environment variables
+        SONAR_HOST_URL = 'https://sonarcloud.io'
+        SONAR_PROJECT_KEY = 'vedant_travel'
+        SONAR_ORGANIZATION = 'Ncived'
+        SONAR_TOKEN = credentials('sonarcloud-token') // Add the token in Jenkins credentials
+        scannerHome = tool 'sonarcloud-scanner'
+    }
+
 
     stages {
         stage('checkout') {
@@ -29,7 +38,21 @@ pipeline {
                 '''
             }
         }
-        
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv(installationName: 'sonarcloud') {
+                        sh '''
+                            ${scannerHome}/bin/sonar-scanner \
+                               -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+                               -Dsonar.organization=$SONAR_ORGANIZATION \
+                               -Dsonar.host.url=$SONAR_HOST_URL \
+                               -Dsonar.login=$SONAR_TOKEN
+                        '''
+                    }
+                }
+            }
+        }
        stage('Deploy to EC2') {
     steps {
         script {
