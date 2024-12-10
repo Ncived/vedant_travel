@@ -5,7 +5,7 @@ pipeline {
         SONAR_HOST_URL = 'https://sonarcloud.io'
         SONAR_PROJECT_KEY = 'vedant_travel'
         SONAR_ORGANIZATION = 'ncived'
-        SONAR_TOKEN = credentials('sonarcloud-token') // Add the token in Jenkins credentials
+        SONAR_TOKEN = credentials('sonarcloud-credentials') // Add the token in Jenkins credentials
         scannerHome = tool 'sonarcloud-scanner'
     }
 
@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                git credentialsId: 'test', url: 'https://github.com/Ncived/vedant_travel.git'
+                git credentialsId: 'github-credentials', url: 'https://github.com/Ncived/vedant_travel.git'
             }
         }
         stage('Set Up Environment') {
