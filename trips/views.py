@@ -1,52 +1,65 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Destination, Booking
-from django.http import HttpResponse
-from .forms import DestinationForm  
+from .forms import DestinationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
+# pylint: disable=too-many-ancestors, missing-class-docstring, too-few-public-methods,disable=no-member, trailing-whitespace
+
+# Module-level docstring
+"""
+Views for handling trip-related operations, including managing destinations, bookings, and user signups.
+"""
+
 def home(request):
+    """Render the home page."""
     return render(request, 'trips/home.html')
-    
+
 def about(request):
-    return render(request, 'trips/about.html') 
+    """Render the about page."""
+    return render(request, 'trips/about.html')
 
 def destination_list(request):
-    destinations = Destination.objects.all()  # Get all destinations
+    """List all destinations."""
+    destinations = Destination.objects.all()
     return render(request, 'trips/destination_list.html', {'destinations': destinations})
 
 def destination_detail(request, pk):
-    destination = get_object_or_404(Destination, pk=pk)  # Get the destination by primary key (pk)
+    """Show details for a specific destination."""
+    destination = get_object_or_404(Destination, pk=pk)
     return render(request, 'trips/destination_detail.html', {'destination': destination})
 
 def booking_create(request, destination_pk):
-    destination = get_object_or_404(Destination, pk=destination_pk)  # Get the destination
+    """Create a new booking for a destination."""
+    destination = get_object_or_404(Destination, pk=destination_pk)
     if request.method == 'POST':
-        user_name = request.POST.get('user_name')  # Get the user name
-        travelers = int(request.POST.get('travelers'))  # Get the number of travelers
-        if travelers <= destination.availability:  # Check if availability allows for booking
+        user_name = request.POST.get('user_name')
+        travelers = int(request.POST.get('travelers'))
+        if travelers <= destination.availability:
             Booking.objects.create(user_name=user_name, destination=destination, travelers=travelers)
-            destination.availability -= travelers  # Update availability
+            destination.availability -= travelers
             destination.save()
-            return redirect('destination_list')  # Redirect after successful booking
+            return redirect('destination_list')
         else:
             return render(request, 'trips/booking_form.html', {'destination': destination, 'error': "Not enough availability!"})
-    return render(request, 'trips/booking_form.html', {'destination': destination})  # GET request, show the form
+    return render(request, 'trips/booking_form.html', {'destination': destination})
 
-# Create view for adding a new destination
+@login_required
 def destination_create(request):
+    """Create a new destination (only for logged-in users)."""
     if request.method == 'POST':
         form = DestinationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('destination_detail')  # Redirect to the list of destinations
+            return redirect('destination_list')
     else:
         form = DestinationForm()
-    return render(request, 'registration/login.html', {'form': form})
+    return render(request, 'trips/destination_form.html', {'form': form})
 
-# Update view for editing an existing destination
+@login_required
 def destination_update(request, pk):
+    """Update an existing destination (only for logged-in users)."""
     destination = get_object_or_404(Destination, pk=pk)
     if request.method == 'POST':
         form = DestinationForm(request.POST, instance=destination)
@@ -57,45 +70,33 @@ def destination_update(request, pk):
         form = DestinationForm(instance=destination)
     return render(request, 'trips/destination_form.html', {'form': form})
 
-# Delete view for deleting an existing destination
+@login_required
 def destination_delete(request, pk):
+    """Delete an existing destination (only for logged-in users)."""
     destination = get_object_or_404(Destination, pk=pk)
     if request.method == 'POST':
         destination.delete()
-        return redirect('destination_list')  # Redirect to destination list
+        return redirect('destination_list')
     return render(request, 'trips/destination_confirm_delete.html', {'destination': destination})
-    
 
-# Signup view
 def signup(request):
+    """Handle user signup."""
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)  # Log the user in after successful signup
-            return redirect('home')  # Redirect to the home page after signup
+            return redirect('destination_list')  # Redirect to destination list after signup
     else:
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
 
-@login_required  # Only logged-in users can access this view
-def destination_create(request):
-    if request.method == 'POST':
-        form = DestinationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('destination_list')  # Redirect to the list of destinations
-    else:
-        form = DestinationForm()
-    return render(request, 'trips/destination_form.html', {'form': form})
-
-
 def explore(request):
-    # Example destinations data (you could fetch from a model or API)
+    """Render a page with a list of example destinations and itineraries."""
     destinations = [
         {
             'name': 'Paris',
-            'image_url': 'https://th.bing.com/th/id/OIP.gOiajMIog2Kbarg3VMx9RwHaE8?rs=1&pid=ImgDetMain', # Paris image
+            'image_url': 'https://th.bing.com/th/id/OIP.gOiajMIog2Kbarg3VMx9RwHaE8?rs=1&pid=ImgDetMain',
             'description': 'Paris, the capital city of France, is known for its art, fashion, and culture.',
             'itinerary': [
                 'Day 1: Visit the Eiffel Tower',
@@ -108,7 +109,7 @@ def explore(request):
         },
         {
             'name': 'New York City',
-            'image_url': 'https://th.bing.com/th/id/OIP.-TzFBbHeO7cr_QR7Z466wQHaE8?rs=1&pid=ImgDetMain',  # New York City image
+            'image_url': 'https://th.bing.com/th/id/OIP.-TzFBbHeO7cr_QR7Z466wQHaE8?rs=1&pid=ImgDetMain',
             'description': 'New York City is known for its iconic landmarks, Broadway shows, and diverse neighborhoods.',
             'itinerary': [
                 'Day 1: Visit the Statue of Liberty',
@@ -121,7 +122,7 @@ def explore(request):
         },
         {
             'name': 'Rome',
-            'image_url': 'https://th.bing.com/th/id/OIP.INB7nsN_TGttYNu4sINevQHaEW?rs=1&pid=ImgDetMain',  # Rome image
+            'image_url': 'https://th.bing.com/th/id/OIP.INB7nsN_TGttYNu4sINevQHaEW?rs=1&pid=ImgDetMain',
             'description': 'Rome, the capital of Italy, is known for its ancient monuments, art, and architecture.',
             'itinerary': [
                 'Day 1: Visit the Colosseum and Roman Forum',
@@ -134,7 +135,7 @@ def explore(request):
         },
         {
             'name': 'Sydney',
-            'image_url': 'https://th.bing.com/th/id/OIP.8AZsvjI3-khUnhL08bI_yAHaE8?rs=1&pid=ImgDetMain',  # Sydney image
+            'image_url': 'https://th.bing.com/th/id/OIP.8AZsvjI3-khUnhL08bI_yAHaE8?rs=1&pid=ImgDetMain',
             'description': 'Sydney, Australia’s largest city, is famous for its Opera House and beautiful harbor.',
             'itinerary': [
                 'Day 1: Visit the Sydney Opera House',
@@ -146,5 +147,5 @@ def explore(request):
             'best_time_to_visit': 'September to November and March to May'
         }
     ]
-    
+
     return render(request, 'trips/explore.html', {'destinations': destinations})
