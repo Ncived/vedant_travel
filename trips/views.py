@@ -40,10 +40,10 @@ def destination_create(request):
         form = DestinationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('destination_list')  # Redirect to the list of destinations
+            return redirect('destination_detail')  # Redirect to the list of destinations
     else:
         form = DestinationForm()
-    return render(request, 'trips/destination_form.html', {'form': form})
+    return render(request, 'registration/login.html', {'form': form})
 
 # Update view for editing an existing destination
 def destination_update(request, pk):
@@ -105,19 +105,6 @@ def explore(request):
                 'Day 5: Walk around Montmartre and visit the Sacré-Cœur'
             ],
             'best_time_to_visit': 'April to June and September to October'
-        },
-        {
-            'name': 'Tokyo',
-            'image_url': 'https://www.bing.com/images/blob?bcid=S7TBfdKmoNgHqxcxoNWLuD9SqbotqVTdPz4',
-            'description': 'Tokyo, Japan’s capital, is a city known for its towering skyscrapers and vibrant culture.',
-            'itinerary': [
-                'Day 1: Visit Sensoji Temple',
-                'Day 2: Explore Akihabara',
-                'Day 3: Day trip to Mount Fuji',
-                'Day 4: Visit Meiji Shrine and Harajuku',
-                'Day 5: Explore Tokyo Disneyland'
-            ],
-            'best_time_to_visit': 'March to May and September to November'
         },
         {
             'name': 'New York City',

@@ -8,16 +8,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vedant Travel</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'home.css' %}">
 </head>
 <body>
     <!-- Navigation -->
     <nav>
         <ul class="navbar">
             <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'destination_list' %}">Destinations</a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
+        <!--    <li><a href="{% url 'destination_list' %}">Destinations</a></li>-->
+        <!--    <li><a href="{% url 'about' %}">About</a></li>-->
         </ul>
+        {% if user.is_authenticated %}
+            <!--<p>Hello, {{ user.username }}!</p>-->
+            <p style="color: black;">Hello, {{ user.username }}!</p>
+            <ul>
+                <li><a href="{% url 'destination_list' %}">View Destinations</a></li>
+                <li><a href="{% url 'destination_create' %}">Add New Destination</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        {% else %}
+            <p style="color: black;">You are not logged in.</p>
+            <ul>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            </ul>
+        {% endif %}
     </nav>
 
     <!-- Hero Section -->
@@ -35,22 +50,22 @@
     </section>
 
     <!-- Show different options based on authentication state -->
-    <section id="auth-section">
-        {% if user.is_authenticated %}
-            <p>Hello, {{ user.username }}!</p>
-            <ul>
-                <li><a href="{% url 'destination_list' %}">View Destinations</a></li>
-                <li><a href="{% url 'destination_create' %}">Add New Destination</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-            </ul>
-        {% else %}
-            <p>You are not logged in.</p>
-            <ul>
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'signup' %}">Sign Up</a></li>
-            </ul>
-        {% endif %}
-    </section>
+    <!--<section id="auth-section">-->
+    <!--    {% if user.is_authenticated %}-->
+    <!--        <p>Hello, {{ user.username }}!</p>-->
+    <!--        <ul>-->
+    <!--            <li><a href="{% url 'destination_list' %}">View Destinations</a></li>-->
+    <!--            <li><a href="{% url 'destination_create' %}">Add New Destination</a></li>-->
+    <!--            <li><a href="{% url 'logout' %}">Logout</a></li>-->
+    <!--        </ul>-->
+    <!--    {% else %}-->
+    <!--        <p>You are not logged in.</p>-->
+    <!--        <ul>-->
+    <!--            <li><a href="{% url 'login' %}">Login</a></li>-->
+    <!--            <li><a href="{% url 'signup' %}">Sign Up</a></li>-->
+    <!--        </ul>-->
+    <!--    {% endif %}-->
+    <!--</section>-->
 
 </body>
 </html>
@@ -63,8 +78,8 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <h1>Welcome to the Travel Planner!</h1>
-
+ <img src="{% static 'images/project new.jpg' %}" alt="Background" class="background-image">
+<h1 style="color: black;">Welcome to the Travel Planner!</h1>
     <!-- Explore More button -->
     <a href="{% url 'explore' %}" class="explore-btn">
         <button>Explore More Destinations</button>
