@@ -8,7 +8,8 @@ class Destination(models.Model):
 
     def __str__(self):
         return self.name  
-
+        
+        
 class Booking(models.Model):
     user_name = models.CharField(max_length=100)
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE)
@@ -16,4 +17,4 @@ class Booking(models.Model):
     travelers = models.IntegerField()
 
     def __str__(self):
-        return f"{self.user_name} - {self.destination.name}"  
+        return f"{self.user_name} - {self.destination.name}"        
